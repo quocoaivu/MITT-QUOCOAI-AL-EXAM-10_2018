@@ -1,0 +1,12 @@
+---
+- hosts: web
+  tasks:
+  - name: Update and upgrade apt packages
+    become: yes
+    become_user: root
+    become_method: su
+    apt:
+      updade: yes
+      update_cache: yes
+      cache_valid_time: 86400 #One day
+
