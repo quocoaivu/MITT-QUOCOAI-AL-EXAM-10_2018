@@ -1,0 +1,48 @@
+INSTALL SERVER
+
+Install Required Dependencies
+apt-get update -y
+apt-get upgrade -y
+apt-get install build-essential gcc make apache2 libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-common apache2-utils unzip wget sendmail inotify-tools -y
+
+Install OSSEC
+wget https://github.com/ossec/ossec-hids/archive/2.9.0.tar.gz
+tar -xvzf 2.9.0.tar.gz
+cd ossec-hids-2.9.0
+sh install.sh
+
+Once the installation is completed, start OSSEC:
+/var/ossec/bin/ossec-control start
+
+Install OSSEC Web UI
+wget https://github.com/ossec/ossec-wui/archive/master.zip
+unzip master.zip
+mv ossec-wui-master /var/www/html/ossec
+cd /var/www/html/ossec
+./setup.sh
+
+Finally, restart apache with the following command:
+systemctl restart apache2
+
+
+
+INSTALL CLIENT
+Install Required Dependencies
+apt-get update -y
+apt-get upgrade -y
+sudo apt-get install build-essential
+
+Automated Installation
+wget -q -O - https://updates.atomicorp.com/installers/atomic | sudo bash
+sudo apt-get update
+sudo apt-get install ossec-hids-agent
+Restart OSSEC
+/var/ossec/bin/ossec-control restart
+
+
+Add Agent to Server and Extract Its Key
+/var/ossec/bin/manage_agents
+
+
+Import The Key From Server to Agent
+/var/ossec/bin/manage_agents
